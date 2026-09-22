@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="it">
-<!DOCTYPE html>
-<html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
 <title>Compiti settimanali</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
@@ -167,18 +164,12 @@ footer p{margin:0 0 6px}
   label.chk input:checked::after{color:#000}
   .chip{background:#fff!important;color:#000!important;border:1px solid #000}
 }
-
-body:not(.admin) .admin-only{display:none!important}
-textarea.mono{min-height:120px;font-family:ui-monospace,Consolas,Menlo,monospace;font-size:13px}
-.steps{margin:0 0 12px;padding-left:22px;color:var(--muted)}
-.steps li{margin-bottom:6px}
-.steps code{font-size:13px;background:var(--todo-bg);color:var(--ink);padding:1px 5px;border-radius:4px;word-break:break-all}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Compiti settimanali</h1>
-  <p class="sub">Consegne, studio e ripassi, giorno per giorno</p>
+  <p class="sub">Organizzatore dello studio</p>
 
   <div class="tools">
     <div class="nav">
@@ -189,17 +180,17 @@ textarea.mono{min-height:120px;font-family:ui-monospace,Consolas,Menlo,monospace
     <div class="actions">
       <button class="btn" type="button" data-act="print">Stampa</button>
       <button class="btn" type="button" data-act="download" id="dl">Scarica foglio</button>
-      <button class="btn admin-only" type="button" data-act="link">Link da condividere</button>
+      <button class="btn" type="button" data-act="link">Genera link compiti</button>
       <button class="btn" type="button" data-act="backup">Salva backup</button>
       <button class="btn" type="button" data-act="restore">Ripristina</button>
       <input type="file" id="rest" accept=".json,application/json" hidden>
     </div>
   </div>
 
-  <section class="linkbox admin-only" id="linkbox" hidden>
-    <p>Link della pagina online. Ogni volta che lo generi cambia solo la coda («?v=…»): serve a far scaricare al browser l'ultima versione dei compiti. Le spunte restano dove sono, perché sono legate al sito e non alla coda del link.</p>
-    <label class="lbl">Indirizzo della pagina online (quello di GitHub Pages)<input type="url" id="base" placeholder="https://…" autocomplete="off"></label>
-    <label class="lbl">Link da inviare<input type="text" id="linkout" readonly></label>
+  <section class="linkbox" id="linkbox" hidden>
+    <p>Link diretto alla scheda compiti. Invialo via messaggio o email: aprendolo, lo studente vedrà i compiti aggiornati e le spunte sui compiti completati rimarranno salvate nel suo browser.</p>
+    <label class="lbl">Indirizzo online della scheda (GitHub Pages)<input type="url" id="base" placeholder="https://username.github.io/repo/" autocomplete="off"></label>
+    <label class="lbl">Link generato da inviare<input type="text" id="linkout" readonly></label>
     <div class="pv-actions"><button class="btn primary" type="button" data-act="copylink">Copia link</button><button class="btn" type="button" data-act="sharelink" id="sharebtn">Condividi…</button></div>
   </section>
 
@@ -215,63 +206,34 @@ textarea.mono{min-height:120px;font-family:ui-monospace,Consolas,Menlo,monospace
 
   <main class="week" id="week"></main>
 
-  <details class="add admin-only" id="addbox">
+  <details class="add" id="addbox">
     <summary>Aggiungi compiti</summary>
     <div class="add-body">
       <p>Incolla qui il testo dei file «Compiti per…» (anche più file di seguito). Legge materia, docente, data di assegnazione e giorno di consegna.</p>
-      <textarea id="paste" placeholder="ASSEGNATI IL 24 SETTEMBRE&#10;&#10;MATEMATICA (D. ROSSI):&#10;Svolgere gli esercizi assegnati.&#10;--- CONSEGNA LUNEDÌ 28 SETTEMBRE ---"></textarea>
+      <textarea id="paste" placeholder="ASSEGNATI IL 24 SETTEMBRE&#10;&#10;MATEMATICA (PROF. ROSSI):&#10;Svolgere gli esercizi assegnati.&#10;--- CONSEGNA LUNEDÌ 28 SETTEMBRE ---"></textarea>
       <div class="pv-actions"><button class="btn primary" type="button" data-act="parse">Leggi i compiti</button></div>
       <div id="preview"></div>
     </div>
   </details>
 
-  <details class="add admin-only" id="pubbox">
-    <summary>Pubblica online</summary>
-    <div class="add-body">
-      <p>Le modifiche fatte qui (aggiunte ed eliminazioni) vivono solo in questa finestra. Per pubblicarle:</p>
-      <ol class="steps">
-        <li>Premi «Genera dati»: i compiti attuali vengono copiati negli appunti.</li>
-        <li>Apri il file con un editor di testo e sostituisci tutto ciò che sta tra <code>&lt;script type="application/json" id="compiti-data"&gt;</code> e <code>&lt;/script&gt;</code> con i dati copiati.</li>
-        <li>Salva e carica il file su GitHub. Dopo uno o due minuti la pagina online è aggiornata: genera il link con «Link da condividere» e mandalo.</li>
-      </ol>
-      <div class="pv-actions"><button class="btn primary" type="button" data-act="export">Genera dati</button></div>
-      <label class="lbl" style="margin-top:12px">Dati compiti<textarea id="exportout" class="mono" readonly placeholder="Premi «Genera dati»"></textarea></label>
-    </div>
-  </details>
-
   <footer>
-    <p>Le materie da studiare hanno due spunte: prima «Studiato», poi «Ripassato» per l'orale. I compiti vengono dalla versione online della scheda; le spunte restano salvate in questo browser, su questo dispositivo.</p>
-    <p>Ogni tanto premi «Salva backup»: se il browser cancella i suoi dati, con «Ripristina» recuperi le spunte.</p>
+    <p>Le materie da studiare hanno due spunte: prima «Studiato», poi «Ripassato» per l'orale. Le spunte sui compiti vengono salvate sul browser di questo dispositivo.</p>
+    <p>Ogni tanto premi «Salva backup»: se il browser cancella i suoi dati, con «Ripristina» recuperi le spunte. Per inviare i nuovi compiti, usa il pulsante «Genera link compiti» oppure aggiorna il file online: lo studente potrà continuare a usare la scheda mantenendo i suoi progressi.</p>
   </footer>
 </div>
-
-<!-- ===== COMPITI PUBBLICATI =====
-     Questo è l'unico blocco da aggiornare ogni settimana.
-     Formato JSON: attenzione a virgole e virgolette doppie.
-     Il modo più sicuro è usare «Aggiungi compiti» + «Pubblica online» aprendo il file dal computer. -->
-<script type="application/json" id="compiti-data">
-[
-  {"due": "2026-09-21", "subject": "Storia", "teacher": "S. De Simone", "given": "17 set", "note": "", "parts": [{"text": "Svolgere l'esercizio assegnato sul quaderno.", "kind": "w"}]},
-  {"due": "2026-09-21", "subject": "Inglese", "teacher": "A. Cardillo", "given": "17 set", "note": "", "parts": [{"text": "Tutti gli esercizi di pag. 141 ed esercizio n. 13 di pag. 142.", "kind": "w"}]},
-  {"due": "2026-09-21", "subject": "Italiano", "teacher": "M. Di Masi", "given": "18 set", "note": "Portare il libro di Antologia.", "parts": [{"text": "Studiare pag. 8.", "kind": "s"}]},
-  {"due": "2026-09-22", "subject": "Geografia", "teacher": "S. De Simone", "given": "18 set", "note": "", "parts": [{"text": "Svolgere gli esercizi assegnati sul quaderno.", "kind": "w"}]},
-  {"due": "2026-09-22", "subject": "Spagnolo", "teacher": "G. Montano", "given": "18 set", "note": "", "parts": [{"text": "Studiare il lessico di p. 16.", "kind": "s"}, {"text": "Esercizio n. 14 di p. 16.", "kind": "w"}]},
-  {"due": "2026-09-22", "subject": "Italiano", "teacher": "M. Di Masi", "given": "18 set", "note": "", "parts": [{"text": "Solo per chi non ha finito in classe: completare pag. 8, 9, 10 del quaderno operativo (In ottima forma).", "kind": "w"}]},
-  {"due": "2026-09-23", "subject": "Arte e Immagine", "teacher": "G. Montano", "given": "18 set", "note": "", "parts": [{"text": "Studiare sul testo B pag. 9.", "kind": "s"}]},
-  {"due": "2026-09-23", "subject": "Italiano", "teacher": "M. Di Masi", "given": "21 set", "note": "", "parts": [{"text": "Studiare pag. 10-11.", "kind": "s"}]},
-  {"due": "2026-09-23", "subject": "Matematica", "teacher": "D. Sicuranza", "given": "21 set", "note": "", "parts": [{"text": "Svolgere le divisioni assegnate sul quaderno.", "kind": "w"}]},
-  {"due": "2026-09-24", "subject": "Educazione fisica", "teacher": "A. Fischetti", "given": "17 set", "note": "", "parts": [{"text": "Parte IV: cap. 7 (sez. 7.01 e 7.02) e cap. 8 (sez. 8.01).", "kind": "s"}, {"text": "Parte VI: cap. 10 (da sez. 10.01 a 10.03 e sez. 10.05).", "kind": "s"}, {"text": "Parte XI: cap. 30 (sez. 30.01 e 30.04) e cap. 31 (sez. 31.01 e 31.16).", "kind": "s"}]}
-]
-</script>
 
 <script>
 var MONTHS=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
 var DOW=["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
 
-/* Gli strumenti di gestione si vedono solo aprendo il file dal computer
-   oppure aggiungendo #admin all'indirizzo. */
-var ADMIN=location.protocol==="file:"||/[#?&]admin\b/.test(location.hash+location.search);
-if(ADMIN)document.body.className+=" admin";
+var SEED=[
+  {due:"2026-09-21",subject:"Storia",teacher:"Prof. Rossi",given:"17 set",parts:[{text:"Leggere e sintetizzare il capitolo 2.",kind:"s"}]},
+  {due:"2026-09-21",subject:"Inglese",teacher:"Prof. Smith",given:"17 set",parts:[{text:"Esercizi da pagina 20 a pagina 22.",kind:"w"}]},
+  {due:"2026-09-21",subject:"Italiano",teacher:"Prof. Bianchi",given:"18 set",note:"Ripassare per l'interrogazione.",parts:[{text:"Studiare le regole di sintassi a pag. 45.",kind:"s"}]},
+  {due:"2026-09-22",subject:"Geografia",teacher:"Prof. Rossi",given:"18 set",parts:[{text:"Completare la mappa concettuale sul quaderno.",kind:"w"}]},
+  {due:"2026-09-22",subject:"Matematica",teacher:"Prof. Verdi",given:"18 set",parts:[{text:"Studiare il teorema a pag. 80.",kind:"s"},{text:"Risolvere gli esercizi n. 1, 2 e 3 a pag. 82.",kind:"w"}]},
+  {due:"2026-09-23",subject:"Scienze",teacher:"Prof. Neri",given:"21 set",parts:[{text:"Studiare l'esperimento descritto a pag. 30.",kind:"s"}]}
+];
 
 /* ---------- utilità ---------- */
 function $(id){return document.getElementById(id)}
@@ -290,49 +252,37 @@ function hash(s){var x=5381,i;for(i=0;i<s.length;i++){x=((x<<5)+x+s.charCodeAt(i
 function cap(s){s=String(s).trim();return s.charAt(0).toUpperCase()+s.slice(1)}
 function titleCase(s){return String(s).toLowerCase().replace(/(^|[\s'’-])([a-zà-ÿ])/g,function(m,a,b){return a+b.toUpperCase()})}
 function msg(t){$("msg").textContent=t||""}
-function metaText(t){
-  var m=[];
-  if(t.teacher)m.push(t.teacher);
-  if(t.given&&t.given!=="—")m.push("assegnato il "+t.given);
-  return m.join(" · ");
-}
 
 /* ---------- dati e stato ---------- */
-var SKEY="compiti-settimanali-state-v1";
+var SKEY="compiti-settimanali-state-v3";
+var TKEY="compiti-settimanali-tasks-v3";
 var BKEY="compiti-settimanali-base";
-var tasks=[],state={},dataError=false;
 
-function normalize(list){
-  var out=[];
-  if(!Array.isArray(list))return out;
-  list.forEach(function(t){
-    if(!t||typeof t.subject!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(t.due||"")||!Array.isArray(t.parts))return;
-    var parts=t.parts.filter(function(p){return p&&typeof p.text==="string"&&p.text.trim()}).map(function(p){
-      return {text:p.text.trim(),kind:p.kind==="s"?"s":"w"};
-    });
-    if(!parts.length)return;
-    out.push({due:t.due,subject:t.subject.trim(),teacher:String(t.teacher||"").trim(),given:String(t.given||"").trim(),note:String(t.note||"").trim(),parts:parts});
-  });
-  return out;
-}
-/* Gli identificativi nascono dal contenuto (data di consegna, materia, testo):
-   un compito nuovo ha sempre spunte vuote, uno invariato conserva le sue. */
-function assignIds(list){
-  var seenT={};
-  list.forEach(function(t){
-    var base="t"+hash(t.due+"|"+t.subject),n=(seenT[base]=(seenT[base]||0)+1);
-    t.id=n>1?base+"-"+n:base;
-    var seenP={};
-    t.parts.forEach(function(p){
-      var pb="p"+hash(t.id+"|"+p.text),m=(seenP[pb]=(seenP[pb]||0)+1);
-      p.id=m>1?pb+"-"+m:pb;
+var tasks=[], state={};
+
+function ensureIds(taskList){
+  taskList.forEach(function(t){
+    if(!t.id) t.id="t"+hash(t.due+"|"+t.subject+"|"+(t.teacher||""));
+    t.parts.forEach(function(p,i){
+      if(!p.id) p.id="p"+hash(t.id+"|"+i+"|"+p.text);
     });
   });
 }
-try{tasks=normalize(JSON.parse($("compiti-data").textContent))}catch(e){tasks=[];dataError=true}
-assignIds(tasks);
+
 try{state=JSON.parse(localStorage.getItem(SKEY)||"{}")||{}}catch(e){state={}}
 function saveState(){try{localStorage.setItem(SKEY,JSON.stringify(state))}catch(e){}}
+function saveTasks(){try{localStorage.setItem(TKEY,JSON.stringify(tasks))}catch(e){}}
+
+function loadInitialTasks(){
+  try{
+    var saved=JSON.parse(localStorage.getItem(TKEY)||"null");
+    if(Array.isArray(saved)&&saved.length>0) return saved;
+  }catch(e){}
+  return JSON.parse(JSON.stringify(SEED));
+}
+
+tasks=loadInitialTasks();
+ensureIds(tasks);
 
 function get(id){return state[id]||{d:false,r:false}}
 function status(p){
@@ -388,17 +338,16 @@ function render(){
   var mon=parseISO(curMon),today=iso(new Date()),days=weekDays(),wt=weekTasks(),out="";
   $("range").textContent=rangeLabel(mon,addDays(mon,4));
   if(!wt.length){
-    out='<div class="emptyweek">Nessun compito in questa settimana.'+(ADMIN?'<br>Apri «Aggiungi compiti» qui sotto e incolla i file.':'')+'</div>';
-    if(ADMIN)$("addbox").open=true;
+    out='<div class="emptyweek">Nessun compito in questa settimana.<br>Apri «Aggiungi compiti» qui sotto e incolla i file.</div>';
+    $("addbox").open=true;
   }else{
     days.forEach(function(d){
       var key=iso(d),list=tasks.filter(function(t){return t.due===key});
       out+='<section class="day'+(key===today?" today":"")+'"><div class="day-head"><h3>'+DOW[d.getDay()]+(key===today?'<span class="oggi">oggi</span>':"")+'</h3><small>consegna '+shortDate(d)+'</small></div>';
       if(!list.length)out+='<p class="empty">Nessun compito in consegna.</p>';
       list.forEach(function(t){
-        var mt=metaText(t);
-        out+='<div class="task"><div class="task-top"><h4 class="subject">'+esc(t.subject)+'</h4>'+(ADMIN?'<button class="btn ghost" type="button" data-act="del" data-tid="'+esc(t.id)+'">Elimina</button>':'')+'</div>';
-        if(mt)out+='<p class="meta">'+esc(mt)+'</p>';
+        out+='<div class="task"><div class="task-top"><h4 class="subject">'+esc(t.subject)+'</h4><button class="btn ghost" type="button" data-act="del" data-tid="'+esc(t.id)+'">Elimina</button></div>';
+        out+='<p class="meta">'+esc(t.teacher)+' · assegnato il '+esc(t.given)+'</p>';
         t.parts.forEach(function(p){out+=partHTML(p)});
         if(t.note)out+='<p class="note">'+esc(t.note)+'</p>';
         out+='</div>';
@@ -408,6 +357,7 @@ function render(){
   }
   $("week").innerHTML=out;
   counts();
+  if(!$("linkbox").hidden)updateLink();
 }
 function counts(){
   var n={todo:0,review:0,done:0},tot=0;
@@ -474,7 +424,7 @@ function renderPreview(){
   var h='<h4 class="pv-title">Ho letto '+pending.length+(pending.length===1?" compito":" compiti")+'. Controlla il tipo e togli quello che non serve:</h4>';
   pending.forEach(function(t,ti){
     var d=parseISO(t.due);
-    h+='<div class="pv-task"><b>'+esc(t.subject)+'</b> <span class="meta">'+(t.teacher?esc(t.teacher)+' · ':'')+'consegna '+DOW[d.getDay()].toLowerCase()+' '+shortDate(d)+'</span>';
+    h+='<div class="pv-task"><b>'+esc(t.subject)+'</b> <span class="meta">'+esc(t.teacher)+' · consegna '+DOW[d.getDay()].toLowerCase()+' '+shortDate(d)+'</span>';
     t.parts.forEach(function(p,pi){
       h+='<div class="pv-part"><span>'+esc(p.text)+'</span>'+
         '<select data-ti="'+ti+'" data-pi="'+pi+'" aria-label="Tipo di compito"><option value="w"'+(p.kind==="w"?" selected":"")+'>Scritto</option><option value="s"'+(p.kind==="s"?" selected":"")+'>Da studiare</option></select>'+
@@ -486,46 +436,18 @@ function renderPreview(){
   h+='<div class="pv-actions"><button class="btn primary" type="button" data-act="add">Aggiungi alla scheda</button><button class="btn" type="button" data-act="cancel">Annulla</button></div>';
   box.innerHTML=h;
 }
-function sameTask(a,b){
-  if(a.due!==b.due||a.subject!==b.subject||a.parts.length!==b.parts.length)return false;
-  return a.parts.every(function(p,i){return p.text===b.parts[i].text});
-}
 function addPending(){
-  var added=0,skipped=0,first=null;
+  var added=0,first=null;
   pending.forEach(function(t){
-    if(tasks.some(function(x){return sameTask(x,t)})){skipped++;return}
     tasks.push(t);added++;
     if(!first||t.due<first)first=t.due;
   });
-  assignIds(tasks);
+  ensureIds(tasks);
+  saveTasks();
   pending=[];renderPreview();$("paste").value="";
   if(first)curMon=iso(mondayOf(parseISO(first)));
   render();
-  var m=added?("Aggiunti "+added+(added===1?" compito.":" compiti.")):"Questi compiti c'erano già.";
-  if(added&&skipped)m+=" ("+skipped+" già present"+(skipped===1?"e":"i")+", saltat"+(skipped===1?"o":"i")+".)";
-  if(added)m+=" Per pubblicarli apri «Pubblica online».";
-  msg(m);
-}
-
-/* ---------- dati da pubblicare ---------- */
-function exportJSON(){
-  var list=tasks.slice().sort(function(a,b){return a.due<b.due?-1:(a.due>b.due?1:0)});
-  var lines=list.map(function(t){
-    var o={due:t.due,subject:t.subject,teacher:t.teacher,given:t.given,note:t.note||"",parts:t.parts.map(function(p){return {text:p.text,kind:p.kind}})};
-    return "  "+JSON.stringify(o).replace(/</g,"\\u003c");
-  });
-  return "[\n"+lines.join(",\n")+"\n]";
-}
-function copyText(text,el,okMsg){
-  function ok(){msg(okMsg)}
-  function old(){try{el.select();document.execCommand("copy");ok()}catch(e){msg("Copialo a mano dal campo.")}}
-  try{navigator.clipboard.writeText(text).then(ok,old)}catch(e){old()}
-}
-function doExport(){
-  var ta=$("exportout");
-  ta.value=exportJSON();
-  ta.select();
-  copyText(ta.value,ta,"Dati copiati. Incollali nel file al posto del vecchio blocco dei compiti.");
+  msg(added?("Aggiunti "+added+(added===1?" compito.":" compiti.")):"Nessun compito aggiunto.");
 }
 
 /* ---------- stampa e foglio da scaricare ---------- */
@@ -546,8 +468,7 @@ function sheetHTML(){
     h+='<div class="day"><div class="dh"><span>'+DOW[d.getDay()]+'</span><span>'+esc(shortDate(d))+'</span></div>';
     if(!list.length)h+='<div class="e">Nessun compito in consegna.</div>';
     list.forEach(function(t){
-      var mt=metaText(t);
-      h+='<div class="t"><div class="s">'+esc(t.subject)+(mt?' <span class="m">· '+esc(mt)+'</span>':'')+'</div>';
+      h+='<div class="t"><div class="s">'+esc(t.subject)+' <span class="m">· '+esc(t.teacher)+' · assegnato il '+esc(t.given)+'</span></div>';
       t.parts.forEach(function(p){
         var s=get(p.id);
         h+='<div class="p"><span>'+esc(p.text)+'</span><span class="b">'+(p.kind==="s"?box(s.d)+" Studiato &nbsp; "+box(s.r)+" Ripassato":box(s.d)+" Fatto")+'</span></div>';
@@ -566,12 +487,12 @@ function saveFile(name,mime,text){
   setTimeout(function(){URL.revokeObjectURL(url)},1000);
 }
 function doDownload(){
-  saveFile("compiti-settimana-"+curMon+".html","text/html;charset=utf-8",sheetHTML());
+  saveFile("compiti-settimanali-"+curMon+".html","text/html;charset=utf-8",sheetHTML());
   msg("Foglio scaricato. Aprilo e stampalo (formato A4).");
 }
 function doBackup(){
-  saveFile("compiti-backup-spunte.json","application/json",JSON.stringify({version:1,state:state}));
-  msg("Backup delle spunte salvato. Tienilo da parte: serve per ripristinare le spunte.");
+  saveFile("compiti-settimanali-backup.json","application/json",JSON.stringify({version:3,state:state,tasks:tasks}));
+  msg("Backup salvato. Tienilo da parte: serve per ripristinare i dati.");
 }
 function doRestore(file){
   if(!file)return;
@@ -579,37 +500,75 @@ function doRestore(file){
   r.onload=function(){
     try{
       var d=JSON.parse(r.result);
-      if(!d||typeof d.state!=="object"||!d.state)throw new Error("formato");
-      state=d.state;
-      saveState();curMon=pickWeek();render();
-      msg("Spunte ripristinate. I compiti vengono sempre dalla versione online della scheda.");
+      if(!d||(!d.state&&!Array.isArray(d.tasks)))throw new Error("formato");
+      if(d.state) state=d.state;
+      if(Array.isArray(d.tasks)&&d.tasks.length>0){
+        tasks=d.tasks;
+        ensureIds(tasks);
+        saveTasks();
+      }
+      saveState();
+      curMon=pickWeek();
+      render();
+      msg("Dati ripristinati con successo.");
     }catch(e){msg("Quel file non sembra un backup valido.")}
     $("rest").value="";
   };
   r.readAsText(file);
 }
 
-/* ---------- link da condividere ---------- */
-var linkStamp="";
-function stamp(){var d=new Date();return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+pad(d.getHours())+pad(d.getMinutes())}
+/* ---------- link e condivisione compiti ---------- */
+function b64enc(str){
+  var bytes=new TextEncoder().encode(str),bin="",i;
+  for(i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);
+  return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function b64dec(s){
+  s=s.replace(/-/g,"+").replace(/_/g,"/");
+  while(s.length%4)s+="=";
+  var bin=atob(s),bytes=new Uint8Array(bin.length),i;
+  for(i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+function packTasks(){
+  var t=tasks.map(function(x){
+    return {
+      d:x.due,
+      s:x.subject,
+      t:x.teacher||"",
+      g:x.given||"",
+      n:x.note||"",
+      p:x.parts.map(function(p){return [p.text,p.kind]})
+    };
+  });
+  return b64enc(JSON.stringify({v:1,t:t}));
+}
 function baseURL(){
   var c=($("base").value||"").trim();
-  return c.split("#")[0].split("?")[0];
+  return c?c.split("#")[0]:"";
 }
 function updateLink(){
   var out=$("linkout"),base=baseURL();
-  if(!/^https?:\/\//i.test(base)){out.value="";msg("Scrivi qui sopra l'indirizzo della pagina online: senza, il link non può funzionare.");return}
-  out.value=base+"?v="+linkStamp;
+  if(!base){
+    if(location.protocol==="http:"||location.protocol==="https:"){
+      base=location.href.split("#")[0];
+    }
+  }
+  if(!tasks.length){out.value="";msg("Non ci sono compiti da inviare.");return}
+  if(!base){
+    out.value="";
+    msg("Inserisci l'indirizzo online della scheda (es. https://username.github.io/repo/).");
+    return;
+  }
+  out.value=base.split("#")[0]+"#w="+packTasks();
   msg("");
 }
 function openLinkBox(){
   var box=$("linkbox");
   if(!box.hidden){box.hidden=true;return}
-  var pre="";
-  if(location.protocol==="http:"||location.protocol==="https:")pre=location.origin+location.pathname;
-  else{try{pre=localStorage.getItem(BKEY)||""}catch(e){}}
-  if(!$("base").value)$("base").value=pre;
-  linkStamp=stamp();
+  var stored="";
+  try{stored=localStorage.getItem(BKEY)||""}catch(e){}
+  if(!$("base").value)$("base").value=stored||((location.protocol==="http:"||location.protocol==="https:")?location.href.split("#")[0]:"");
   $("sharebtn").style.display=navigator.share?"":"none";
   box.hidden=false;
   updateLink();
@@ -618,12 +577,44 @@ function copyLink(){
   var o=$("linkout");
   if(!o.value)return;
   o.select();
-  copyText(o.value,o,"Link copiato.");
+  function ok(){msg("Link copiato.")}
+  function old(){try{document.execCommand("copy");ok()}catch(e){msg("Copialo a mano dal campo.")}}
+  try{navigator.clipboard.writeText(o.value).then(ok,old)}catch(e){old()}
 }
 function shareLink(){
   var o=$("linkout");
   if(!o.value||!navigator.share)return;
   navigator.share({title:"Compiti settimanali",url:o.value}).catch(function(){});
+}
+function importFromHash(){
+  var hashStr=location.hash||"";
+  if(hashStr.indexOf("#w=")===0){
+    try{
+      var jsonStr=b64dec(hashStr.substring(3));
+      var data=JSON.parse(jsonStr);
+      if(data&&Array.isArray(data.t)&&data.t.length>0){
+        var imported=data.t.map(function(x){
+          return {
+            due:x.d,
+            subject:x.s,
+            teacher:x.t||"",
+            given:x.g||"",
+            note:x.n||"",
+            parts:(x.p||[]).map(function(p){return {text:p[0],kind:p[1]||"w"}})
+          };
+        });
+        ensureIds(imported);
+        tasks=imported;
+        saveTasks();
+        msg("Compiti caricati dal link!");
+        return true;
+      }
+    }catch(e){
+      console.error("Errore importazione compiti da hash:",e);
+      msg("Impossibile leggere i compiti dal link.");
+    }
+  }
+  return false;
 }
 
 /* ---------- eventi ---------- */
@@ -633,7 +624,7 @@ function arm(btn,label,fn){
   btn.setAttribute("data-armed","1");btn.textContent=label;
   setTimeout(function(){if(btn.isConnected){btn.removeAttribute("data-armed");btn.textContent=old}},4000);
 }
-function shiftWeek(n){curMon=iso(addDays(parseISO(curMon),7*n));msg("");render()}
+function shiftWeek(n){curMon=iso(addDays(parseISO(curMon),7*n));msg("");render();if(!$("linkbox").hidden)updateLink()}
 document.addEventListener("input",function(e){
   if(e.target.id==="base"){try{localStorage.setItem(BKEY,e.target.value.trim())}catch(_){}updateLink()}
 });
@@ -650,7 +641,6 @@ document.addEventListener("click",function(e){
   else if(a==="link")openLinkBox();
   else if(a==="copylink")copyLink();
   else if(a==="sharelink")shareLink();
-  else if(a==="export")doExport();
   else if(a==="restore")$("rest").click();
   else if(a==="parse"){
     pending=parseText($("paste").value);
@@ -673,8 +663,9 @@ document.addEventListener("click",function(e){
         t.parts.forEach(function(p){delete state[p.id]});
         return false;
       });
-      saveState();render();
-      msg("Compito eliminato da questa finestra. Per toglierlo anche online usa «Pubblica online».");
+      saveState();
+      saveTasks();
+      render();
     });
   }
   else if(a==="reset"){
@@ -709,9 +700,9 @@ document.addEventListener("change",function(e){
   counts();
 });
 
+var hashImported=importFromHash();
 curMon=pickWeek();
 render();
-if(dataError)msg("Non riesco a leggere i compiti: nel blocco dati c'è un errore (controlla virgole e virgolette).");
 
 try{localStorage.setItem("__t","1");localStorage.removeItem("__t")}
 catch(e){msg("Attenzione: questo browser non permette di salvare i dati qui. Compiti e spunte si perdono alla chiusura.")}
